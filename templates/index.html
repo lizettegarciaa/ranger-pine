@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8" />
+   <title>Ranger Pine • AI Park Ranger Assistant</title>
+
+   <!-- MAIN CSS FILE (THIS WAS MISSING BEFORE!) -->
+   <link rel="stylesheet" href="/static/styles.css">
+
+   <!-- GOOGLE FONTS -->
+   <link href="https://fonts.googleapis.com/css2?family=Rye&family=Pacifico&display=swap" rel="stylesheet">
+
+   <!-- MARKDOWN PARSER -->
+   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+   <!-- MAIN JAVASCRIPT -->
+   <script defer src="/static/app.js"></script>
+</head>
+
+<body>
+
+<header class="site-header">
+   <div class="logo-area">
+       <div class="logo-badge">RP</div>
+       <div class="logo-text">
+           <h1>Ranger Pine</h1>
+           <p>Your AI National Park Ranger</p>
+       </div>
+   </div>
+   <button id="themeToggle" class="theme-toggle">☀️ Light / Dark</button>
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero">
+   <div class="hero-image"></div>
+   <div class="hero-overlay">
+       <h2 class="hero-title">Discover America’s Great Outdoors with Ranger Pine</h2>
+       <p class="hero-subtitle">Trails, roadtrips, wildlife, and more.</p>
+
+
+   </div>
+</section>
+
+<main class="main-layout">
+
+   <!-- LEFT COLUMN -->
+   <section class="left-column">
+
+       <!-- TRIP PLANNER -->
+       <section class="card trip-planner">
+           <h3> Roadtrip & Park Planner</h3>
+           <p class="card-subtitle">Tell Ranger Pine about your trip and we’ll help you refine it.</p>
+
+           <div class="form-grid">
+               <label>
+                   Starting City / Area
+                   <input id="startLocation" type="text" placeholder="e.g. Los Angeles, CA" />
+               </label>
+
+               <label>
+                   Trip Length (days)
+                   <input id="tripDays" type="number" min="1" max="30" placeholder="5" />
+               </label>
+
+               <label>
+                   Month / Season
+                   <input id="tripSeason" type="text" placeholder="e.g. June, early Fall" />
+               </label>
+
+              <label>
+    Trip Budget
+    <select id="tripBudget">
+        <option value="$">$</option>
+        <option value="$$" selected>$$</option>
+        <option value="$$$">$$$</option>
+    </select>
+</label>
+
+
+               <label class="full-width">
+                   What vibe are you going for?
+                   <input id="tripVibe" type="text" placeholder="e.g. waterfalls, stargazing, minimal hiking, photography" />
+               </label>
+           </div>
+
+           <button id="askTripBtn" class="primary-btn">✨ Ask Ranger Pine to Suggest a Trip</button>
+       </section>
+
+       <!-- NATIONAL PARK GALLERY -->
+       <section class="card gallery">
+           <div class="gallery-header">
+               <h3> National Park Gallery</h3>
+               <p class="card-subtitle">Click a park to ask Ranger Pine about it.</p>
+           </div>
+
+           <<div class="carousel">
+
+    <!-- Yosemite -->
+    <div class="carousel-slide active" data-park-id="Yosemite National Park">
+        <div class="carousel-image" style="background-image:url('https://www.shootfromthetrip.com/wp-content/uploads/2017/11/Valley-View-1.jpg');"></div>
+        <div class="carousel-caption">
+            <h4>Yosemite National Park</h4>
+            <p>Granite cliffs, waterfalls, and giant sequoias in California.</p>
+        </div>
+    </div>
+
+    <!-- Sequoia -->
+    <div class="carousel-slide" data-park-id="Sequoia National Park">
+        <div class="carousel-image" style="background-image:url('https://happiestoutdoors.ca/wp-content/uploads/2018/08/walking-by-the-Giant-Forest-e1635464043397.jpg.webp');"></div>
+        <div class="carousel-caption">
+            <h4>Sequoia National Park</h4>
+            <p>Home of the world's largest trees—including General Sherman.</p>
+        </div>
+    </div>
+
+    <!-- Glacier -->
+    <div class="carousel-slide" data-park-id="Glacier National Park">
+        <div class="carousel-image" style="background-image:url('https://www.earthtrekkers.com/wp-content/uploads/2020/05/Best-Things-to-do-in-Glacier.jpg');"></div>
+        <div class="carousel-caption">
+            <h4>Glacier National Park</h4>
+            <p>Alpine lakes, rugged peaks, and the Going-to-the-Sun Road.</p>
+        </div>
+    </div>
+
+    <!-- Arches -->
+    <div class="carousel-slide" data-park-id="Arches National Park">
+        <div class="carousel-image" style="background-image:url('https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/grandcountyut/archesnp_8ea6df4a-faaf-4b34-8645-d3ff76a628ff.jpg');"></div>
+        <div class="carousel-caption">
+            <h4>Arches National Park</h4>
+            <p>Over 2,000 natural arches and iconic red rock formations.</p>
+        </div>
+    </div>
+
+</div>
+
+
+           <div class="carousel-controls">
+               <button id="prevSlide" class="secondary-btn">⟵ Prev</button>
+               <button id="nextSlide" class="secondary-btn">Next ⟶</button>
+               <button id="askAboutParkBtn" class="primary-outline-btn">🔍 Ask Ranger Pine About This Park</button>
+           </div>
+       </section>
+   </section>
+
+   <!-- RIGHT COLUMN: CHAT -->
+   <section class="right-column">
+       <section class="card chat-card">
+
+           <div class="chat-header">
+               <div class="ranger-avatar">
+    <span class="avatar-circle">🌲</span>
+               </div>
+               <div>
+                   <h3>Chat with Ranger Pine</h3>
+                   <p class="card-subtitle">Ask anything about parks, hiking, wildlife, or safety.</p>
+                   <button id="clearHistoryBtn" class="secondary-btn small" style="margin-bottom:10px;">
+    Clear Conversation
+</button>
+
+               </div>
+           </div>
+
+           <div id="chatMessages" class="chat-messages">
+               <div class="chat-row ranger">
+                   <div class="bubble ranger-bubble">
+                       Hi there! I’m Ranger Pine. Tell me what kind of adventure you’re planning or ask about any park.
+                   </div>
+               </div>
+           </div>
+
+           <div class="chat-input-row">
+               <textarea id="userInput" rows="2" placeholder="Ask Ranger Pine a question..."></textarea>
+
+               <div class="chat-buttons">
+                   <button id="askBtn" class="primary-btn small">Ask</button>
+                   <button id="voiceBtn" class="secondary-btn small">🎤</button>
+               </div>
+           </div>
+
+       </section>
+   </section>
+
+</main>
+
+<footer class="site-footer">
+   <p>Inspired by classic U.S. National Park posters • Built with ❤️ & Python</p>
+</footer>
+
+</body>
+</html>
