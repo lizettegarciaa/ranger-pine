@@ -60,15 +60,31 @@ function startListening() {
         alert("Speech recognition not supported.");
         return;
     }
+
     const recog = new Recognition();
     recog.lang = "en-US";
+    recog.continuous = false;     // only one recognition event
+    recog.interimResults = false; // no half-words
+
     recog.start();
 
+    let finalTranscript = "";
+
     recog.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById("userInput").value = transcript;
-        sendText();
+        finalTranscript = event.results[0][0].transcript;
+        document.getElementById("userInput").value = finalTranscript;
     };
+
+    recog.onspeechend = () => {
+        recog.stop();
+        sendText();  // sends AFTER user finishes talking
+    };
+
+    recog.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+    };
+}
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {document.getElementById("clearHistoryBtn").addEventListener("click", async () => {
