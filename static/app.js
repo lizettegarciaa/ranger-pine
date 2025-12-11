@@ -83,7 +83,7 @@ function startListening() {
     recog.onerror = (event) => {
         console.error("Speech recognition error:", event.error);
     };
-}
+
 
 }
 
