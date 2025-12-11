@@ -63,29 +63,37 @@ function startListening() {
 
     const recog = new Recognition();
     recog.lang = "en-US";
-    recog.continuous = false;     // only one recognition event
-    recog.interimResults = false; // no half-words
-
-    recog.start();
+    recog.continuous = false;          // stop after user finishes speaking
+    recog.interimResults = false;      // do NOT return partial results
 
     let finalTranscript = "";
 
     recog.onresult = (event) => {
-        finalTranscript = event.results[0][0].transcript;
+        // ALWAYS use the full final result
+        finalTranscript = event.results[event.resultIndex][0].transcript;
         document.getElementById("userInput").value = finalTranscript;
     };
 
+    // Fires when the user stopped making sound
     recog.onspeechend = () => {
-        recog.stop();
-        sendText();  // sends AFTER user finishes talking
+        recog.stop();   // stop listening
+    };
+
+    // Fires AFTER recognition fully stops
+    recog.onend = () => {
+        // Only send if we actually captured something
+        if (finalTranscript.trim() !== "") {
+            sendText();   // SEND ONLY ONCE
+        }
     };
 
     recog.onerror = (event) => {
         console.error("Speech recognition error:", event.error);
     };
 
-
+    recog.start();
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {document.getElementById("clearHistoryBtn").addEventListener("click", async () => {
     await fetch("/api/clear_history", { method: "POST" });
